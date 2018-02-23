@@ -251,7 +251,7 @@
 			$waktu = $res["waktu"];
 			$soal = explode(" ", $res["soal"]);
 			mysqli_free_result($result);
-			$getSoal = "SELECT soal, tipe_soal_gambar, soal_gambar, jawab_A, jawab_B, jawab_C, jawab_D FROM soal WHERE ";
+			$getSoal = "SELECT id, soal, tipe_soal_gambar, soal_gambar, jawab_A, jawab_B, jawab_C, jawab_D FROM soal WHERE ";
 			for($i=0; $i<count($soal)-1; $i++) {
 				$getSoal .= "id=".$soal[$i]." OR ";
 			}
@@ -259,8 +259,10 @@
 			$result = $mysqli->query($getSoal);
 			$numSoal = 0;
 			$soalView = array();
+			$idSoal = array();
 			if($result->num_rows > 0) {
 				while($row = $result->fetch_assoc()) {
+					$idSoal[$numSoal] = $row['id'];
 					$soalView[$numSoal][0] = $row['soal'];
 					$soalView[$numSoal][1] = $row['tipe_soal_gambar'];
 					$soalView[$numSoal][2] = $row['soal_gambar'];
@@ -277,7 +279,6 @@
 		<div class="navbar">
 			<button type="button" class="btn btn-default btn-lg prev" onclick="prevSoal()"><span class="fa fa-caret-left"></span></button>
 			<button type="button" class="btn btn-default btn-lg next" onclick="nextSoal()"><span class="fa fa-caret-right"></span></button>
-			<p id="demo"></p>
 		</div>
 	</div>
 	<div class="sidenav">
@@ -291,6 +292,7 @@
 				<?php endfor; ?>
 			</div>
 		</div>
+		<p id="demo"></p>
 		<button type="button" class="btn btn-danger btn-selesai" data-toggle="modal" data-target="#modalSelesai">Selesai</button>
 	</div>
 	
@@ -317,69 +319,62 @@
 	
 	<div class="container-fluid">
 		<form action="selesai_soal.php" method="post">
-			<?php
-				for($i=0; $i<count($soal); $i++) {
-					echo "
-						<div class='soalContent' id='".$i."'>";
-					if(!empty($soalView[$i][2])) {
-						echo "
-							<div class='row'>
-								<div class='col-sm-9'>
-									<h2>".($i+1)."</h2>
-									<h4>".$soalView[$i][0]."</h4>
-								</div>
-								<div class='col-sm-3'>
-									<img class='img-responsive' id='imageSoal' src='data:".$soalView[$i][1].";base64, ".base64_encode($soalView[$i][2])."' width='250'>
-									<div id='modalImage' class='modal'>
-										<span class='close' id='closeModal'>&times;</span>
-										<img class='modal-content' id='imageInModal'>
-									</div>
-								</div>
-							</div>";
-					} else {
-						echo "
-							<h2>".($i+1)."</h2>
-							<h4>".$soalView[$i][0]."</h4>
-						";
-					}
-					echo "
-							<hr>
-							<input type='radio' id='defaultPilihan' name='pilih".$i."' value='0' checked='checked'>
-							<div class='row'>
-								<div class='col-sm-6'>
-									<div class='form-group'>
-										<label class='pilihan'>".$soalView[$i][3]."
-											<input type='radio' name='pilih".$i."' value='1'>
-											<span class='checkmark'></span>
-										</label>
-									</div>
-									<br>
-									<div class='form-group'>
-										<label class='pilihan'>".$soalView[$i][4]."
-											<input type='radio' name='pilih".$i."' value='2'>
-											<span class='checkmark'></span>
-										</label>
-									</div>
-								</div>
-								<div class='col-sm-6'>
-									<div class='form-group'>
-										<label class='pilihan'>".$soalView[$i][5]."
-											<input type='radio' name='pilih".$i."' value='3'>
-											<span class='checkmark'></span>
-										</label>
-									</div>
-									<br>
-									<div class='form-group'>
-										<label class='pilihan'>".$soalView[$i][6]."
-											<input type='radio' name='pilih".$i."' value='4'>
-											<span class='checkmark'></span>
-										</label>
-									</div>
+			<?php for($i=0; $i<count($soal); $i++) : ?>
+				<div class="soalContent" id="<?php echo $i; ?>">
+					<?php if(!empty($soalView[$i][2])) : ?>
+						<div class="row">
+							<div class="col-sm-9">
+								<h2><?php echo ($i+1); ?></h2>
+								<h4><?php echo $soalView[$i][0]; ?></h4>
+							</div>
+							<div class="col-sm-3">
+								<img class="img-responsive" id="imageSoal" src="data:<?php echo $soalView[$i][1]; ?>; base64, <?php echo base64_encode($soalView[$i][2]); ?>" width="250" onclick="openImage(event, 'modalImage<?php echo $idSoal[$i]; ?>')">
+								<div id="modalImage<?php echo $idSoal[$i]; ?>" class="modal">
+									<span class="close" id="closeModal" onclick="closeImage(event, 'modalImage<?php echo $idSoal[$i]; ?>')">&times;</span>
+									<img class="modal-content" id="imageInModal<?php echo $idSoal[$i]; ?>" src="data:<?php echo $soalView[$i][1]; ?>; base64, <?php echo base64_encode($soalView[$i][2]); ?>" width="100%">
 								</div>
 							</div>
-						</div>";
-				}
-			?>
+						</div>
+					<?php else : ?>
+						<h2><?php echo ($i+1); ?></h2>
+						<h4><?php echo $soalView[$i][0]; ?></h4>
+					<?php endif; ?>
+					<hr>
+					<input type="radio" id="defaultPilihan" name="pilih<?php echo $i; ?>" value="0" checked="checked">
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label class="pilihan"><?php echo $soalView[$i][3]; ?>
+									<input type="radio" name="pilih<?php echo $i; ?>" value="1">
+									<span class="checkmark"></span>
+								</label>
+							</div>
+							<br>
+							<div class="form-group">
+								<label class="pilihan"><?php echo $soalView[$i][4]; ?>
+									<input type="radio" name="pilih<?php echo $i; ?>" value="2">
+									<span class="checkmark"></span>
+								</label>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label class="pilihan"><?php echo $soalView[$i][5]; ?>
+									<input type="radio" name="pilih<?php echo $i; ?>" value="3">
+									<span class="checkmark"></span>
+								</label>
+							</div>
+							<br>
+							<div class="form-group">
+								<label class="pilihan"><?php echo $soalView[$i][6]; ?>
+									<input type="radio" name="pilih<?php echo $i; ?>" value="4">
+									<span class="checkmark"></span>
+								</label>
+							</div>
+						</div>
+					</div>
+				</div>
+			<?php endfor; ?>
 			<input type="hidden" name="kode" value="<?php echo $kode; ?>"/>
 			<input type="hidden" name="jmlSoal" value="<?php echo count($soal); ?>"/>
 			<button id="selesai" type="submit" name="selesai">Selesai</button>
@@ -414,6 +409,26 @@
 			document.getElementById(id).style.display = "block";
 			evt.currentTarget.className += " active";
 		}
+
+		function openImage(evt, id) {
+			var i, imageSoal, modalImage, imageInModal;
+			imageSoal = document.getElementsByClassName("img-responsive");
+			modalImage = document.getElementsByClassName("modal");
+			for(i=0; i<modalImage.length; i++) {
+				modalImage[i].style.display = "none";
+			}
+			document.getElementById(id).style.display = "block";
+		}
+
+		$(document).ready(function() {
+			$('.modal').on('show.bs.modal', function(e) {
+
+			})
+		})
+
+		function closeImage(evt, id) {
+			document.getElementById(id).style.display = "none";
+		}
 		
 		document.getElementById("defaultOpen").click();	
 		
@@ -438,24 +453,39 @@
 			document.getElementById("selesai").click();
 		}
 
+		/*var jmlSoal = document.getElementsByClassName("soalContent").length;
+		document.
+		
+		var modal = document.getElementById("modalImage");
+		var img = document.getElementById("imageSoal");
+		var modalImg = document.getElementById("imageInModal");
+		img.onclick = function() {
+			modal.style.display = "block";
+			modalImg.src = this.src;
+		}
+		var span = document.getElementById("closeModal");
+		span.onclick = function() {
+			modal.style.display = "none";
+		}*/
 		var soal = document.getElementsByClassName("soalContent");
+		/*var i;
 		var modal = [];
 		var img = [];
 		var modalImg = [];
 		var span = [];
 		for(i=0; i<soal.length; i++) {
-			modal[i] = soal[i].getElementById("modalImage");
-			img[i] = soal[i].getElementById("imageSoal");
-			modalImg[i] = soal[i].getElementById("imageInModal");
-			img[i].onclick = function() {
-				modal[i].style.display = "block";
-				modalImg[i].src = this.src;
+			modal = soal[i].getElementById("modalImage");
+			img = soal[i].getElementById("imageSoal");
+			modalImg = soal[i].getElementById("imageInModal");
+			img.onclick = function() {
+				modal.style.display = "block";
+				modalImg.src = this.src;
 			}
-			span[i] = soal[i].getElementsByClassName("close")[0];
-			span[i].onclick = function() {
-				modal[i].style.display = "block";
+			span = soal[i].getElementsByClassName("close")[0];
+			span.onclick = function() {
+				modal.style.display = "none";
 			}
-		}
+		}*/
 
 	</script>
 	
