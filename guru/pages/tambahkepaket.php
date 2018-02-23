@@ -216,7 +216,7 @@
 			<input name="inputNama" type="hidden" value="<?php echo $nama; ?>">
 			<input name="inputMapel" type="hidden" value="<?php echo $mapel; ?>">
 			<input name="inputKelas" type="hidden" value="<?php echo $kelas; ?>">
-			<input name="inputWaktu" type="hidden" value="<?php echo $waktu; ?>">
+			<input name="inputWaktu" type="hidden" value="<?php echo $waktu; ?> Menit">
 			<input name="inputKode" type="hidden" value="<?php echo $kode; ?>">
 			<hr>
 			<?php
