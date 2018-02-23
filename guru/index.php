@@ -94,6 +94,5 @@
 			}
 		});
 	</script>
-	<div>Copyright 2018 Andika Harlan</div>
 </body>
 </html>
