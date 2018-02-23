@@ -104,6 +104,5 @@ if(isset($_GET['error'])) {
         </div>
     </div>
 </div>
-
 </body>
 </html>
