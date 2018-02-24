@@ -284,8 +284,31 @@
 					</thead>
 					<tbody>
 						<?php
-							$sql = "SELECT paket.id, paket.kode, mapel.mapel, paket.nama, paket.kelas, paket.waktu FROM paket INNER JOIN mapel ON paket.id_mapel=mapel.id_mapel;";
+							function kategoriString($kategori) {
+								$kategoriStr = "";
+								if($kategori == "1") {
+									$kategoriStr = "Mudah";
+								} else if($kategori == "2") {
+									$kategoriStr = "Sedang";
+								} else if($kategori == "3") {
+									$kategoriStr = "Sulit";
+								}
+								return $kategoriStr;
+							}
+							
+							function jenisString($jenis) {
+								$jenisStr = "";
+								if($jenis == "1") {
+									$jenisStr = "Pilihan Ganda";
+								} else if($jenis == "2") {
+									$jenisStr = "Esai";
+								}
+								return $jenisStr;
+							}
+
+							$sql = "SELECT paket.id, paket.kode, mapel.mapel, paket.nama, paket.kelas, paket.waktu, paket.soal FROM paket INNER JOIN mapel ON paket.id_mapel=mapel.id_mapel;";
 							$result = $mysqli->query($sql);
+
 							if($result->num_rows > 0) {
 								while($row = $result->fetch_assoc()) {
 									echo "
@@ -295,12 +318,12 @@
 											<td>".$row["mapel"]."</td>
 											<td>".$row["kelas"]."</td>
 											<td>".$row["kode"]."</td>
-											<td>".$row["waktu"]."</td>
+											<td>".$row["waktu"]." Menit</td>
 											<td>
-												<a href='#modalView' class='btn btn-default' id='paketId' data-toggle='modal' data-id='".$row["id"]."'>
+												<a href='#modalPaket".$row["id"]."' class='btn btn-default' id='paketId' data-toggle='modal'>
 													<span class='fa fa-search'></span>
 												</a>
-												<div class='modal fade' id='modalView' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>
+												<div class='modal fade' id='modalPaket".$row["id"]."' tabindex='-1' role='dialog' aria-labelledby='myModalLabel".$row["id"]."' aria-hidden='true'>
 													<div class='modal-dialog modal-lg'>
 														<div class='modal-content'>
 															<div class='modal-header'>
@@ -308,33 +331,141 @@
 																	<span aria-hidden='true'>&times;</span>
 																	<span class='sr-only'>Close</span>
 																</button>
-																<h4 class='modal-title' id='myModalLabel'>Lihat Paket Soal</h4>
+																<h4 class='modal-title' id='myModalLabel".$row["id"]."'>Lihat Paket Soal</h4>
 															</div>
 															<div class='modal-body'>
-																<div class='fetched-data'></div>
+																<div class='row'>
+																	<div class='col-sm-9'>
+																		<div class='row'>
+																			<div class='col-sm-3'>
+																				<p><strong>Nama Paket Soal</strong></p>
+																			</div>
+																			<div class='col-sm-1'>
+																				<p>:</p>
+																			</div>
+																			<div class='col-sm-8'>
+																				<p>".$row["nama"]."</p>
+																			</div>
+																		</div>
+																		<div class='row'>
+																			<div class='col-sm-3'>
+																				<p><strong>Kelas</strong></p>
+																			</div>
+																			<div class='col-sm-1'>
+																				<p>:</p>
+																			</div>
+																			<div class='col-sm-8'>
+																				<p>".$row["kelas"]."</p>
+																			</div>
+																		</div>
+																		<div class='row'>
+																			<div class='col-sm-3'>
+																				<p><strong>Mata Pelajaran</strong></p>
+																			</div>
+																			<div class='col-sm-1'>
+																				<p>:</p>
+																			</div>
+																			<div class='col-sm-8'>
+																				<p>".$row["mapel"]."</p>
+																			</div>
+																		</div>
+																		<div class='row'>
+																			<div class='col-sm-3'>
+																				<p><strong>Waktu</strong></p>
+																			</div>
+																			<div class='col-sm-1'>
+																				<p>:</p>
+																			</div>
+																			<div class='col-sm-8'>
+																				<p>".$row["waktu"]." Menit</p>
+																			</div>
+																		</div>
+																		<div class='row'>
+																			<div class='col-sm-3'>
+																				<p><strong>Kode</strong></p>
+																			</div>
+																			<div class='col-sm-1'>
+																				<p>:</p>
+																			</div>
+																			<div class='col-sm-8'>
+																				<p>".$row["kode"]."</p>
+																			</div>
+																		</div>
+																		<div class='row'>
+																			<div class='col-sm-3'>
+																				<p><strong>Jumlah Soal</strong></p>
+																			</div>
+																			<div class='col-sm-1'>
+																				<p>:</p>
+																			</div>
+																			<div class='col-sm-8'>
+																				<p>".count(explode(" ",$row["soal"]))."</p>
+																			</div>
+																		</div>
+																	</div>
+																	<div class='col-sm-3'>
+																		<form action='tambahkepaket.php' method='post'>
+																			<input type='hidden' name='kode' value='".$row["kode"]."'>
+																			<button type='submit' name='edit' class='btn btn-primary pull-right'>Edit Paket Soal</button>
+																		</form>
+																	</div>
+																</div>
+																<hr>
+																<table id='example' class='table table-hover'>
+																	<thead>
+																		<tr>
+																			<th>No.</th>
+																			<th>Soal</th>
+																			<th>Bab</th>
+																			<th>Jenis</th>
+																			<th>Kategori</th>
+																		</tr>
+																	</thead>
+																	<tbody>";
+									$soal = explode(" ",$row["soal"]);
+									for($i=0; $i<count(explode(" ",$row["soal"])); $i++) {
+										$res = $mysqli->query("SELECT soal.soal, soal.bab, soal.jenis, soal.kategori FROM soal WHERE soal.id=".$soal[$i].";");
+										$r = $res->fetch_assoc();
+										echo "
+																		<tr>
+																			<td>".($i+1)."</td>
+																			<td>".$r["soal"]."</td>
+																			<td>".$r["bab"]."</td>
+																			<td>".jenisString($r["jenis"])."</td>
+																			<td>".kategoriString($r["kategori"])."</td>
+																		</tr>";
+									}
+									echo "
+																	</tbody>
+																</table>
 															</div>
 														</div>
 													</div>
 												</div>
 											</td>
 											<td>
-												<a href='#modalDelete' class='btn btn-danger' id='paketId' data-toggle='modal' data-id='".$row["id"]."'>
+												<a href='#modalDelete".$row["id"]."' class='btn btn-danger' id='paketId' data-toggle='modal'>
 													<span class='fa fa-trash'></span>
 												</a>
-												<div class='modal fade' id='modalDelete' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>
+												<div class='modal fade' id='modalDelete".$row["id"]."' tabindex='-1' role='dialog' aria-labelledby='myModalLabel".$row["id"]."' aria-hidden='true'>
 													<div class='modal-dialog'>
 														<div class='modal-content'>
-															<div class='modal-header'>
-																<button type='button' class='close' data-dismiss='modal'>
-																	<span aria-hidden='true'>&times;</span>
-																	<span class='sr-only'>Close</span>
-																</button>
-																<h4 class='modal-title' id='myModalLabel'>Hapus Paket Soal</h4>
-															</div>
-															<div class='modal-body'>
-																<p>Apakah Anda yakin ingin menghapus paket soal ini ?</p>
-																<div class='fetched-data'></div>
-															</div>
+															<form method='post' action='delete_record.php'>
+																<div class='modal-header'>
+																	<button type='button' class='close' data-dismiss='modal'>
+																		<span aria-hidden='true'>&times;</span>
+																		<span class='sr-only'>Close</span>
+																	</button>
+																	<h4 class='modal-title' id='myModalLabel".$row["id"]."'>Hapus Paket Soal</h4>
+																</div>
+																<div class='modal-body'>
+																	<p>Apakah Anda yakin ingin menghapus paket soal ini ?</p>
+																	<input name='inputID' type='hidden' value='".$row["id"]."'>
+																</div>
+																<div class='modal-footer'>
+																	<button type='submit' name='deletePaket' class='btn btn-danger pull-right'>Delete</button>
+																</div>
+															</form>
 														</div>
 													</div>
 												</div>
@@ -367,34 +498,6 @@
 		
 		$(document).ready(function() {
 			$('#example').DataTable();
-		});
-		
-		$(document).ready(function() {
-			$('#modalView').on('show.bs.modal', function(e) {
-				var paketid = $(e.relatedTarget).data('id');
-				$.ajax({
-					type : 'post',
-					url : 'fetch_record.php',
-					data : 'paketid=' + paketid,
-					success : function(data) {
-						$('.fetched-data').html(data);
-					}
-				});
-			});
-		});
-		
-		$(document).ready(function() {
-			$('#modalDelete').on('show.bs.modal', function(e) {
-				var paketid = $(e.relatedTarget).data('id');
-				$.ajax({
-					type : 'post',
-					url : 'delete_record.php',
-					data : 'paketid=' + paketid,
-					success : function(data) {
-						$('.fetched-data').html(data);
-					}
-				});
-			});
 		});
 		
 		var x, i, j, selElement, a, b, c;

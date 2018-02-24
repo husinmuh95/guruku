@@ -240,47 +240,57 @@
 															</div>
 															<div class='modal-body'>
 																<div class='row'>
+																	<div class='col-sm-9'>
+																		<div class='row'>
+																			<div class='col-sm-4'>
+																				<p><strong>Kelas</strong></p>
+																			</div>
+																			<div class='col-sm-1'>
+																				<p>:</p>
+																			</div>
+																			<div class='col-sm-7'>
+																				<p>".$row["kelas"]."</p>
+																			</div>
+																		</div>
+																		<div class='row'>
+																			<div class='col-sm-4'>
+																				<p><strong>Mata Pelajaran</strong></p>
+																			</div>
+																			<div class='col-sm-1'>
+																				<p>:</p>
+																			</div>
+																			<div class='col-sm-7'>
+																				<p>".$row["mapel"]."</p>
+																			</div>
+																		</div>
+																		<div class='row'>
+																			<div class='col-sm-4'>
+																				<p><strong>Bab</strong></p>
+																			</div>
+																			<div class='col-sm-1'>
+																				<p>:</p>
+																			</div>
+																			<div class='col-sm-7'>
+																				<p>".$row["bab"]."</p>
+																			</div>
+																		</div>
+																		<div class='row'>
+																			<div class='col-sm-4'>
+																				<p><strong>Kategori</strong></p>
+																			</div>
+																			<div class='col-sm-1'>
+																				<p>:</p>
+																			</div>
+																			<div class='col-sm-7'>
+																				<p>".kategoriString($row["kategori"])."</p>
+																			</div>
+																		</div>
+																	</div>
 																	<div class='col-sm-3'>
-																		<p><strong>Kelas</strong></p>
-																	</div>
-																	<div class='col-sm-1'>
-																		<p>:</p>
-																	</div>
-																	<div class='col-sm-8'>
-																		<p>".$row["kelas"]."</p>
-																	</div>
-																</div>
-																<div class='row'>
-																	<div class='col-sm-3'>
-																		<p><strong>Mata Pelajaran</strong></p>
-																	</div>
-																	<div class='col-sm-1'>
-																		<p>:</p>
-																	</div>
-																	<div class='col-sm-8'>
-																		<p>".$row["mapel"]."</p>
-																	</div>
-																</div>
-																<div class='row'>
-																	<div class='col-sm-3'>
-																		<p><strong>Bab</strong></p>
-																	</div>
-																	<div class='col-sm-1'>
-																		<p>:</p>
-																	</div>
-																	<div class='col-sm-8'>
-																		<p>".$row["bab"]."</p>
-																	</div>
-																</div>
-																<div class='row'>
-																	<div class='col-sm-3'>
-																		<p><strong>Kategori</strong></p>
-																	</div>
-																	<div class='col-sm-1'>
-																		<p>:</p>
-																	</div>
-																	<div class='col-sm-8'>
-																		<p>".kategoriString($row["kategori"])."</p>
+																		<form method='post' action='tambah_soal.php?type=edit'>
+																			<input type='hidden' name='idSoal' value='".$row["id"]."'>
+																			<button type='submit' class='btn btn-primary'>Edit Soal</button>
+																		</form>
 																	</div>
 																</div>
 																<hr>
@@ -397,13 +407,6 @@
 						?>
 					</tbody>
 				</table>
-				<?php
-					/*echo "
-						<div class='modal modal-img' id='imageModal".$row["id"]."'>
-							<span class='close' id='closeImage'>&times;</span>
-							<img src='imageView.php?id=".$row["id"]."' class='modal-content' id='imageSoal'>
-						</div>";*/
-				?>
 			</div>
 		</div>
 	</div>
