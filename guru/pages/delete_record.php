@@ -15,20 +15,6 @@
 			header('location: view_soal.php');
 		}
 		
-		if(isset($_POST['paketid'])) {
-			$id = $_POST['paketid'];
-			echo "
-				<form class='form-horizontal' method='post' action='delete_record.php'>
-					<div class='form-group'>
-						<label class='col-sm-4 control-label'>ID Paket</label>
-						<div class='col-sm-8'>
-							<input class='form-control' name='inputID' type='text' value='".$id."'>
-						</div>
-					</div>
-					<button type='submit' name='deletePaket' class='btn btn-danger pull-right'>Delete</button>
-				</form>";
-		}
-		
 		if(isset($_POST['deletePaket'])) {
 			$deleteID = $_POST['inputID'];
 			mysqli_autocommit($mysqli, FALSE);

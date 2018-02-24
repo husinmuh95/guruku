@@ -520,6 +520,208 @@
 						<button type="submit" name="simpan" class="block"><span class="fa fa-save"></span> Simpan Soal</button>
 					</form>
 				</div>
+			<?php elseif($_GET['type'] == 'edit') : ?>
+				<div class="container-fluid">
+					<a href="view_soal.php" class="btn btn-danger pull-right">
+						<span class="fa fa-times"></span> Cancel
+					</a>
+					<h3>Form Edit Soal</h3>
+					<hr>
+					<?php
+						$id = $_POST['idSoal'];
+						$sql = "SELECT soal.id_mapel, soal.kelas, soal.bab, soal.kategori, soal.jenis, soal.soal, soal.tipe_soal_gambar, soal.soal_gambar, soal.jawab_A, soal.jawab_B, soal.jawab_C, soal.jawab_D, kunci.kunci FROM soal INNER JOIN kunci ON soal.id=kunci.id_soal WHERE soal.id=".$id.";";
+						$result = $mysqli->query($sql);
+						$row = $result->fetch_assoc();
+						$mapel = $row['id_mapel'];
+						$kelas = $row['kelas'];
+						$bab = $row['bab'];
+						$kategori = $row['kategori'];
+						$jenis = $row['jenis'];
+						$soal = $row['soal'];
+						$tipeSoalGambar = $row['tipe_soal_gambar'];
+						$soalGambar = $row['soal_gambar'];
+						$jawab_A = $row['jawab_A'];
+						$jawab_B = $row['jawab_B'];
+						$jawab_C = $row['jawab_C'];
+						$jawab_D = $row['jawab_D'];
+						$kunci = $row['kunci'];
+					?>
+					<form action="add_soal.php" method="post" enctype="multipart/form-data">
+						<input type="hidden" name="inputID" value="<?php echo $id; ?>">
+						<div class="form-group">
+							<div class="row">
+								<label class="control-label col-sm-2" for="inputMapel">Mata Pelajaran</label>
+								<div class="col-sm-10">
+									<div class="custom-select" style="width:200px;">
+										<select name="inputMapel">
+											<option value="0">Mata Pelajaran</option>
+											<?php 
+												$sql = "SELECT id_mapel, mapel FROM mapel;";
+												$result = $mysqli->query($sql);
+												if($result->num_rows > 0) {
+													while($row = $result->fetch_assoc()) {
+														if($row["id_mapel"] == $mapel) {
+															echo "<option value='".$row["id_mapel"]."' selected>".$row["mapel"]."</option>";
+														} else {
+															echo "<option value='".$row["id_mapel"]."'>".$row["mapel"]."</option>";
+														}
+													}
+												}
+											?>
+										</select>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="row">
+								<label class="control-label col-sm-2" for="inputKelas">Kelas</label>
+								<div class="col-sm-10">
+									<div class="custom-select" style="width:200px;">
+										<select name="inputKelas">
+											<option value="0">Kelas</option>
+											<option value="7" <?php if($kelas == "7") echo "selected"; ?>>7</option>
+											<option value="8" <?php if($kelas == "8") echo "selected"; ?>>8</option>
+											<option value="9" <?php if($kelas == "9") echo "selected"; ?>>9</option>
+										</select>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="row">
+								<label class="control-label col-sm-2" for="inputKategori">Tingkat Kesulitan</label>
+								<div class="col-sm-10">
+									<div class="custom-select" style="width:200px;">
+										<select name="inputKategori">
+											<option value="0">Kategori</option>
+											<option value="1" <?php if($kategori == "1") echo "selected"; ?>>Mudah</option>
+											<option value="2" <?php if($kategori == "2") echo "selected"; ?>>Sedang</option>
+											<option value="3" <?php if($kategori == "3") echo "selected"; ?>>Sulit</option>
+										</select>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="control-label" for="inputBab">Bab :</label>
+							<input type="text" class="form-control" name="inputBab" style="width:650px;" value="<?php echo $bab; ?>"/>
+						</div>
+						<div class="row">
+							<div class="form-group col-sm-6">
+								<label class="control-label" for="inputSoal">Soal :</label>
+								<textarea class="form-control" rows="7" name="inputSoal"><?php echo $soal; ?></textarea>
+							</div>
+							<div class="form-group col-sm-2">
+								<div class="fileUpload">
+									<span class="custom-span">+</span>
+									<p class="custom-para">Add Images</p>
+									<input id="uploadBtn" type="file" class="upload" name="soalGambar"/>
+								</div>
+								<input id="uploadFile" placeholder="0 files selected" disabled="disabled"/>
+							</div>
+							<div class="form-group col-sm-2">
+								<div class="fileUpload">
+									<span class="custom-span">+</span>
+									<p class="custom-para">Add Video</p>
+									<input id="uploadBtn" type="file" class="upload" name="soalVideo"/>
+								</div>
+								<input id="uploadFile" placeholder="0 files selected" disabled="disabled"/>
+							</div>
+							<div class="form-group col-sm-2">
+								<div class="fileUpload">
+									<span class="custom-span">+</span>
+									<p class="custom-para">Add Audio</p>
+									<input id="uploadBtn" type="file" class="upload" name="soalAudio"/>
+								</div>
+								<input id="uploadFile" placeholder="0 files selected" disabled="disabled"/>
+							</div>
+						</div>
+						<hr>
+						<div class="row">
+							<div class="form-group col-sm-1">
+								<p>Jawab A</p>
+								<label class="switch">
+									<input type="radio" name="kunci" value="1" <?php if($kunci == "1") echo "checked='checked'"; ?>>
+									<span class="slider round"></span>
+								</label>
+							</div>
+							<div class="form-group col-sm-2">
+								<div class="fileUpload">
+									<span class="custom-span">+</span>
+									<p class="custom-para">Add Image</p>
+									<input id="uploadBtn" type="file" class="upload" name="gambar_A"/>
+								</div>
+								<input id="uploadFile" placeholder="0 files selected" disabled="disabled"/>
+							</div>
+							<div class="form-group col-sm-6">
+								<textarea class="form-control" rows="5" name="jawab_A"><?php echo $jawab_A; ?></textarea>
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group col-sm-1">
+								<p>Jawab B</p>
+								<label class="switch">
+									<input type="radio" name="kunci" value="2" <?php if($kunci == "2") echo "checked='checked'"; ?>>
+									<span class="slider round"></span>
+								</label>
+							</div>
+							<div class="form-group col-sm-2">
+								<div class="fileUpload">
+									<span class="custom-span">+</span>
+									<p class="custom-para">Add Image</p>
+									<input id="uploadBtn" type="file" class="upload" name="gambar_B"/>
+								</div>
+								<input id="uploadFile" placeholder="0 files selected" disabled="disabled"/>
+							</div>
+							<div class="form-group col-sm-6">
+								<textarea class="form-control" rows="5" name="jawab_B"><?php echo $jawab_B; ?></textarea>
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group col-sm-1">
+								<p>Jawab C</p>
+								<label class="switch">
+									<input type="radio" name="kunci" value="3" <?php if($kunci == "3") echo "checked='checked'"; ?>>
+									<span class="slider round"></span>
+								</label>
+							</div>
+							<div class="form-group col-sm-2">
+								<div class="fileUpload">
+									<span class="custom-span">+</span>
+									<p class="custom-para">Add Image</p>
+									<input id="uploadBtn" type="file" class="upload" name="gambar_C"/>
+								</div>
+								<input id="uploadFile" placeholder="0 files selected" disabled="disabled"/>
+							</div>
+							<div class="form-group col-sm-6">
+								<textarea class="form-control" rows="5" name="jawab_C"><?php echo $jawab_C; ?></textarea>
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group col-sm-1">
+								<p>Jawab D</p>
+								<label class="switch">
+									<input type="radio" name="kunci" value="4" <?php if($kunci == "4") echo "checked='checked'"; ?>>
+									<span class="slider round"></span>
+								</label>
+							</div>
+							<div class="form-group col-sm-2">
+								<div class="fileUpload">
+									<span class="custom-span">+</span>
+									<p class="custom-para">Add Image</p>
+									<input id="uploadBtn" type="file" class="upload" name="gambar_D"/>
+								</div>
+								<input id="uploadFile" placeholder="0 files selected" disabled="disabled"/>
+							</div>
+							<div class="form-group col-sm-6">
+								<textarea class="form-control" rows="5" name="jawab_D"><?php echo $jawab_D; ?></textarea>
+							</div>
+						</div>
+						<hr>
+						<button type="submit" name="edit" class="block"><span class="fa fa-save"></span> Simpan Soal</button>
+					</form>
+				</div>
 			<?php endif; ?>
 		<?php endif; ?>
 		

@@ -64,11 +64,17 @@
 			
 			$tipeSoalGambar = "";
 			$soalGambar = "";
+			$tipeSoalVideo = "";
 			$soalVideo = "";
+			$tipeSoalAudio = "";
 			$soalAudio = "";
+			$tipeGambar_A = "";
 			$gambar_A = "";
+			$tipeGambar_B = "";
 			$gambar_B = "";
+			$tipeGambar_C = "";
 			$gambar_C = "";
+			$tipeGambar_D = "";
 			$gambar_D = "";
 			
 			if(!empty($_FILES['soalGambar']['name'])) {
@@ -148,7 +154,27 @@
 			mysqli_query($mysqli, "INSERT INTO kunci (id_soal, kunci) VALUES (LAST_INSERT_ID(), ".$kunci.");");
 			mysqli_commit($mysqli);
 			
+		} else if(isset($_POST['edit'])) {
+			$id = $_POST['inputID'];
+			$mapel = $_POST['inputMapel'];
+			$kelas = $_POST['inputKelas'];
+			$kategori = $_POST['inputKategori'];
+			$jenis = 1;
+			$bab = $_POST['inputBab'];
+			$soal = $_POST['inputSoal'];
+			$jawab_A = $_POST['jawab_A'];
+			$jawab_B = $_POST['jawab_B'];
+			$jawab_C = $_POST['jawab_C'];
+			$jawab_D = $_POST['jawab_D'];
+			$kunci = $_POST['kunci'];
+
+			mysqli_autocommit($mysqli, FALSE);
+
+			mysqli_query($mysqli, "UPDATE soal SET id_mapel=".$mapel.", kelas=".$kelas.", kategori=".$kategori.", bab='".$bab."', soal='".$soal."', jawab_A='".$jawab_A."', jawab_B='".$jawab_B."', jawab_C='".$jawab_C."', jawab_D='".$jawab_D."' WHERE id=".$id.";");
+			mysqli_query($mysqli, "UPDATE kunci SET kunci=".$kunci." WHERE id_soal=".$id.";");
+			mysqli_commit($mysqli);
 		}
+
 		header('location: view_soal.php');
 	} else {
 		echo '
