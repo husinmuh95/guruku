@@ -14,7 +14,7 @@ if(login_check($mysqli) == true) {
 <!DOCTYPE html>
 <html>
 <head>
-    <title>GURUKU |Secure Login</title>
+    <title>GURUKU|Secure Login</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -40,6 +40,19 @@ if(login_check($mysqli) == true) {
         .login:hover {
             opacity: 1.0;
         }
+        .logo {
+            font-family: "fontawesome", Helvetica;
+            text-decoration:none;
+            line-height: 1;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            font-size:37px;
+            letter-spacing:3px;
+            color:black;
+            display:block;
+            position:relative;
+            text-shadow:1px 1px 0 #444;
+        }
     </style>
 
     <script>
@@ -64,7 +77,7 @@ if(isset($_GET['error'])) {
     <div class="w3-display-middle w3-third">
         <div class="login w3-card-4 w3-animate-zoom w3-light-grey w3-opacity-min w3-round-xlarge w3-center">
             <header class="w3-amber w3-round-xlarge">
-                <h1 class="w3-strong w3-xxxlarge"><b>GURUKU </b></h1>
+                <h1 class="logo w3-strong w3-xxxlarge w3-padding"><b>GURUKU</b></h1>
             </header>
             <div class="w3-container">
                 <h3> Sistem Login for Teacher </h3>

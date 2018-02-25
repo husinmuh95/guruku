@@ -6,7 +6,7 @@ include_once 'includes/functions.php';
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Secure Login : Registration Form</title>
+    <title>GURUKU:Secure Login</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -34,14 +34,30 @@ include_once 'includes/functions.php';
         input:valid {
             background-color: greenyellow;
         }
+        .logo {
+            font-family: "fontawesome", Helvetica;
+            text-decoration:none;
+            line-height: 1;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            font-size:37px;
+            letter-spacing:3px;
+            color:black;
+            display:block;
+            position:relative;
+            text-shadow:1px 1px 0 #444;
+        }
     </style>
 </head>
 <body>
+<!--container background-->
 <div class="bgimg w3-display-container w3-row">
+    <!--container login form-->
     <div class="w3-display-middle w3-half">
         <div class="login w3-card-4 w3-animate-zoom w3-light-grey w3-opacity-min w3-round-xlarge">
+            <!--header guruku-->
             <header class="w3-amber w3-round-xlarge w3-center">
-                <h1 class="w3-strong w3-xxxlarge"><b>GURUKU </b></h1>
+                <h1 class="logo w3-strong w3-xxxlarge w3-padding"><b>GURUKU </b></h1>
             </header>
             <div class="w3-container w3-center">
                 <h3> Sistem Login for Teacher </h3>
@@ -51,6 +67,7 @@ include_once 'includes/functions.php';
                 echo $error_msg;
             }
             ?>
+            <!--form login-->
             <div class="w3-row">
                 <div class="w3-half w3-center">
                     <form action="<?php echo esc_url($_SERVER['PHP_SELF']); ?>" method="post" name="registration_form" class="w3-container">
@@ -95,14 +112,14 @@ include_once 'includes/functions.php';
                 </div>
                 <div class="w3-rest w3-padding-large w3-margin-top">
                     <ul>
-                        <li>Username hanya bisa mencakup digit, huruf-huruf besar dan kecil, dan garis bawah</li>
-                        <li>Email harus memiliki format yang valid</li>
-                        <li>Password harus setidaknya sepanjang 6 karakter</li>
+                        <li>Username hanya bisa mencakup <b>digit</b>, <b>huruf-huruf besar<br> dan kecil</b>, dan <b>garis bawah</b></li>
+                        <li>Email harus memiliki format yang <b>valid</b></li>
+                        <li>Password harus setidaknya sepanjang <b>6 karakter</b></li>
                         <li>Password harus mengandung
                             <ul>
-                                <li>Setidaknya satu huruf besar (A..Z)</li>
-                                <li>Setidaknya satu huruf kecil (a..z)</li>
-                                <li>Setidaknya satu angka (0..9)</li>
+                                <li>Setidaknya <b>satu huruf besar (A..Z)</b></li>
+                                <li>Setidaknya <b>satu huruf kecil (a..z)</b></li>
+                                <li>Setidaknya <b>satu angka (0..9)</b></li>
                             </ul>
                         </li>
                         <li>Password Anda dan konfirmasinya harus cocok</li>
