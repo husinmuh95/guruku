@@ -236,7 +236,7 @@
 							return $check;
 						}
 						mysqli_free_result($result);
-						$sql = "SELECT soal.id, soal.kelas, mapel.mapel, soal.soal, soal.bab, soal.jenis, soal.kategori FROM soal INNER JOIN mapel ON soal.id_mapel=mapel.id_mapel WHERE soal.id_mapel=".$mapel.";";
+						$sql = "SELECT soal.id, soal.kelas, mapel.mapel, soal.soal, soal.bab, soal.jenis, soal.kategori, soal.soal_gambar, soal.jawab_A, soal.jawab_B, soal.jawab_C, soal.jawab_D, kunci.kunci FROM ((soal INNER JOIN mapel ON soal.id_mapel=mapel.id_mapel) INNER JOIN kunci ON soal.id=kunci.id_soal) WHERE soal.id_mapel=".$mapel.";";
 						$result = $mysqli->query($sql);
 						if($result->num_rows > 0) {
 							while($row = $result->fetch_assoc()) {
