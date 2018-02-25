@@ -10,15 +10,17 @@
 <head>
 	<meta charset="utf-8">
 	<title>GURUKU | Paket Soal</title>
-	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-	
-	<link href="../components/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-	<link href="../components/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic" rel="stylesheet">
-	<link href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap.min.css" rel="stylesheet">
-	
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/JavaScript" src="js/sha512.js"></script>
+    <script type="text/JavaScript" src="js/forms.js"></script>
 	<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
 	<script src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap.min.js"></script>
 	
@@ -182,7 +184,6 @@
 											<div class="col-sm-9">
 												<div class="custom-select" style="width:200px;">
 													<select name="inputMapel">
-														<option value="0">Mata Pelajaran</option>
 														<?php 
 															$sql = "SELECT id_mapel, mapel FROM mapel;";
 															$result = $mysqli->query($sql);
@@ -203,7 +204,6 @@
 											<div class="col-sm-9">
 												<div class="custom-select" style="width:200px;">
 													<select name="inputKelas">
-														<option value="0">Kelas</option>
 														<option value="7">7</option>
 														<option value="8">8</option>
 														<option value="9">9</option>
@@ -218,7 +218,6 @@
 											<div class="col-sm-9">
 												<div class="custom-select" style="width:200px;">
 													<select name="inputWaktu">
-														<option value="0">Waktu</option>
 														<option value="30">30 Menit</option>
 														<option value="60">60 Menit</option>
 														<option value="90">90 Menit</option>
@@ -251,7 +250,6 @@
 														}*/
 														return $randomString;
 													}
-													
 												?>
 												<input type="text" class="form-control" name="inputKode" value="<?php echo generateRandomString(); ?>"/>
 											</div>

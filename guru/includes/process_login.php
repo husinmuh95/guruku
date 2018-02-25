@@ -3,7 +3,7 @@
 	include_once 'functions.php';
 	
 	sec_session_start();
-	
+
 	if(isset($_POST['email'], $_POST['p'])) {
 		$email = $_POST['email'];
 		$password = $_POST['p'];

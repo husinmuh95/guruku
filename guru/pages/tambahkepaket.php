@@ -420,13 +420,18 @@
 			$mapel = $row['id_mapel'];
 			$waktu = $row['waktu'];
 			$soal = explode(" ", $row['soal']);
-
 		?>
 		<div class="container-fluid">
 			<a href="paket.php" class="btn btn-danger pull-right">
 				<span class="fa fa-times"></span> Cancel
 			</a>
 			<h3>Form Edit Paket Soal</h3>
+		<form method="post" action="buatpaket.php">
+			<input name="inputNama" type="hidden" value="<?php echo $nama; ?>">
+			<input name="inputMapel" type="hidden" value="<?php echo $mapel; ?>">
+			<input name="inputKelas" type="hidden" value="<?php echo $kelas; ?>">
+			<input name="inputWaktu" type="hidden" value="<?php echo $waktu; ?> Menit">
+			<input name="inputKode" type="hidden" value="<?php echo $kode; ?>">
 			<hr>
 			<form method="post" action="buatpaket.php">
 				<div class='row'>

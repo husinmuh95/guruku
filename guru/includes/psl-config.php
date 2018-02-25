@@ -4,7 +4,7 @@
 	if(!defined('USER'))
 		define("USER", "guru");
 	if(!defined('PASSWORD'))
-		define("PASSWORD", "VYHGmUxuTB3YARFA");
+		define("PASSWORD", "P8vQItEjm1q3Q4PT");
 	if(!defined('DATABASE'))
 		define("DATABASE", "sekolah");
 	
