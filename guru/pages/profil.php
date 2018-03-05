@@ -9,7 +9,7 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>GURUKU | Student</title>
+	<title>GURUKU | Paket Soal</title>
 	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 	
 	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
@@ -47,7 +47,7 @@
 		.sidenav a, .dropdown-btn {
 			padding: 6px 8px 6px 16px;
 			text-decoration: none;
-			font-size: 20px;
+			font-size: 18px;
 			color: #818181;
 			display: block;
 			border: none;
@@ -72,8 +72,50 @@
 			float: right;
 			padding-right: 8px;
 		}
-		.button {
-			padding: 15px 100px;
+		.custom-select {
+			position: relative;
+		}
+		.custom-select select {
+			display: none;
+		}
+		.select-selected {
+			background-color: DodgerBlue;
+		}
+		.select-selected:after {
+			position: absolute;
+			content: "";
+			top: 14px;
+			right: 10px;
+			width: 0;
+			height: 0;
+			border: 6px solid transparent;
+			border-color: #fff transparent transparent transparent;
+		}
+		.select-selected.select-arrow-active:after {
+			border-color: transparent transparent #fff transparent;
+			top: 7px;
+		}
+		.select-items div, .select-selected {
+			color: #ffffff;
+			padding: 8px 16px;
+			border: 1px solid transparent;
+			border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent;
+			cursor: pointer;
+			user-select: none;
+		}
+		.select-items {
+			position: absolute;
+			background-color: DodgerBlue;
+			top: 100%;
+			left: 0;
+			right: 0;
+			z-index: 99;
+		}
+		.select-hide {
+			display: none;
+		}
+		.select-items div:hover {
+			background-color: rgba(0, 0, 0, 0.1);
 		}
 	</style>
 	
@@ -96,107 +138,70 @@
 		</div>
 	</nav>
 	<div class="sidenav">
-		<a href="#" class="active"><span class="fa fa-home"></span> Home</a>
-		<a href="hasil.php"><span class="fa fa-briefcase"></span> Hasil</a>
+		<button class="dropdown-btn" id="dataSiswa">
+			<span class="fa fa-users"></span> Data Siswa
+			<i class="fa fa-caret-down"></i>
+		</button>
+		<div class="dropdown-container">
+			<a href="daftarsiswa.php"><span class="fa fa-user"></span> Daftar Siswa</a>
+		</div>
+		<button class="dropdown-btn" id="bankSoal">
+			<span class="fa fa-archive"></span> Bank Soal
+			<i class="fa fa-caret-down"></i>
+		</button>
+		<div class="dropdown-container">
+			<a href="paket.php"><span class="fa fa-book"></span> Paket Soal</a>
+			<a href="view_soal.php"><span class="fa fa-plus-square"></span> Daftar Soal</a>
+		</div>
+		<a href="mapel.php"><span class="fa fa-list-alt"></span> Mata Pelajaran</a>
 	</div>
-	
-	<div class="container">
+
+	<div class="container-fluid">
 		<div class="panel panel-default">
 			<div class="panel-body">
-				<h3>Masukkan Kode Soal :</h3>
-				<form class="form-horizontal" method="post" action="siswa.php">
+				<form action="" method="post" class="form-horizontal">
 					<div class="row">
 						<div class="col-sm-3">
-							<input class="form-control" type="text" name="inputKode" placeholder="Masukkan Kode Soal"/>
+							<img src="default-profile.png" class="img-circle">
 						</div>
 						<div class="col-sm-9">
-							<button type="submit" name="submit" class="btn btn-primary">Submit</button>
+							<div class="form-group">
+								<div class="row">
+									<label class="col-sm-2 control-label" for="nip">NIP/NRK</label>
+									<div class="col-sm-10">
+										<input type="text" class="form-control" id="nip" name="nip" style="width: 250px;">
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="row">
+
+								</div>
+							</div>
 						</div>
 					</div>
 				</form>
 			</div>
 		</div>
-		<hr>
-		<?php if(isset($_POST['submit'])) : ?>
-			<?php
-				$kode = $_POST['inputKode'];
-				$sql = "SELECT paket.nama, paket.aktif, mapel.mapel, paket.kelas, paket.waktu, paket.soal FROM paket INNER JOIN mapel ON paket.id_mapel=mapel.id_mapel WHERE paket.kode='".$kode."';";
-				$result = $mysqli->query($sql);
-				$row = $result->fetch_assoc();
-			?>
-			<div class="panel panel-default">
-				<div class="panel-body">
-					<?php if($row["aktif"] == "1") : ?>
-						<h3>Mulai Mengerjakan Soal :</h3><br>
-						<div class='row'>
-							<div class='col-sm-3'>
-								<p><strong>Nama Paket Soal</strong></p>
-							</div>
-							<div class='col-sm-1'>
-								<p>:</p>
-							</div>
-							<div class='col-sm-8'>
-								<p><?php echo $row['nama']; ?></p>
-							</div>
-						</div>
-						<div class='row'>
-							<div class='col-sm-3'>
-								<p><strong>Kelas</strong></p>
-							</div>
-							<div class='col-sm-1'>
-								<p>:</p>
-							</div>
-							<div class='col-sm-8'>
-								<p><?php echo $row['kelas']; ?></p>
-							</div>
-						</div>
-						<div class='row'>
-							<div class='col-sm-3'>
-								<p><strong>Mata Pelajaran</strong></p>
-							</div>
-							<div class='col-sm-1'>
-								<p>:</p>
-							</div>
-							<div class='col-sm-8'>
-								<p><?php echo $row['mapel']; ?></p>
-							</div>
-						</div>
-						<div class='row'>
-							<div class='col-sm-3'>
-								<p><strong>Waktu</strong></p>
-							</div>
-							<div class='col-sm-1'>
-								<p>:</p>
-							</div>
-							<div class='col-sm-8'>
-								<p><?php echo $row['waktu']; ?> Menit</p>
-							</div>
-						</div>
-						<div class='row'>
-							<div class='col-sm-3'>
-								<p><strong>Jumlah Soal</strong></p>
-							</div>
-							<div class='col-sm-1'>
-								<p>:</p>
-							</div>
-							<div class='col-sm-8'>
-								<p><?php echo count(explode(" ",$row["soal"])); ?></p>
-							</div>
-						</div>
-						<form method="post" action="mulai_soal.php">
-							<input type="hidden" name="inputKode" value="<?php echo $kode; ?>"/>
-							<input type="hidden" name="waktu" value="<?php echo $row['waktu']; ?>"/>
-							<button type="submit" name="mulai" class="button btn btn-primary btn-lg">Mulai</button>
-						</form>
-					<?php else : ?>
-						<h3>Paket Tidak Aktif</h3>
-					<?php endif; ?>
-				</div>
-			</div>
-		<?php endif; ?>
 	</div>
-	
-	
+
+	<script>
+		var dropdown = document.getElementsByClassName("dropdown-btn");
+		var i;
+		
+		for (i=0; i<dropdown.length; i++) {
+			dropdown[i].addEventListener("click", function() {
+				this.classList.toggle("active");
+				var dropdownContent = this.nextElementSibling;
+				if (dropdownContent.style.display === "block") {
+					dropdownContent.style.display = "none";
+				} else {
+					dropdownContent.style.display = "block";
+				}
+			});
+		}
+	</script>
+
 	<?php else : ?>
 		<p>
 			<span class="error">Anda tidak berhak mengakses halaman ini.</span> Silakan <a href="../index.php">melakukan login</a>.

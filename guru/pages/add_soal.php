@@ -83,7 +83,7 @@
 				$imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
 				$extension_arr = array("jpg", "jpeg", "png", "gif");
 				if(in_array($imageFileType, $extension_arr)) {
-					$tipeSoalGambar = getImageSize($_FILES['soalGambar']['tmp_name']);
+					$tipeSoalGambar = mime_content_type($_FILES['soalGambar']['tmp_name']);
 					$soalGambar = addslashes(file_get_contents($_FILES['soalGambar']['tmp_name']));
 				}
 			}
@@ -91,20 +91,20 @@
 				$target_dir = "video/";
 				$target_file = $target_dir . basename($_FILES['soalVideo']['name']);
 				$videoFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-				$extension_arr = array("mkv", "flv", "avi", "mp4", "mpg", "mpeg", "3gp");
+				$extension_arr = array("mp4", "webm", "ogg");
 				if(in_array($videoFileType, $extension_arr)) {
-					$soalVideo = $_FILES['soalVideo']['name'];
-					move_uploaded_file($_FILES['soalVideo']['tmp_name'], $target_dir.$soalVideo);
+					$tipeSoalVideo = mime_content_type($_FILES['soalVideo']['tmp_name']);
+					$soalVideo = addslashes(file_get_contents($_FILES['soalVideo']['tmp_name']));
 				}
 			}
 			if(!empty($_FILES['soalAudio']['name'])) {
 				$target_dir = "audio/";
 				$target_file = $target_dir . basename($_FILES['soalAudio']['name']);
 				$audioFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-				$extension_arr = array("aac", "m4a", "mp3", "ogg", "wav", "wma", "webm");
+				$extension_arr = array("mp3", "wav", "ogg");
 				if(in_array($audioFileType, $extension_arr)) {
-					$soalAudio = $_FILES['soalAudio']['name'];
-					move_uploaded_file($_FILES['soalAudio']['tmp_name'], $target_dir.$soalAudio);
+					$tipeSoalAudio = mime_content_type($_FILES['soalAudio']['tmp_name']);
+					$soalAudio = addslashes(file_get_contents($_FILES['soalAudio']['tmp_name']));
 				}
 			}
 			if(!empty($_FILES['gambar_A']['name'])) {
@@ -113,8 +113,8 @@
 				$imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
 				$extension_arr = array("jpg", "jpeg", "png", "gif");
 				if(in_array($imageFileType, $extension_arr)) {
-					$gambar_A = $_FILES['gambar_A']['name'];
-					move_uploaded_file($_FILES['gambar_A']['tmp_name'], $target_dir.$gambar_A);
+					$tipeGambar_A = mime_content_type($_FILES['gambar_A']['tmp_name']);
+					$gambar_A = addslashes(file_get_contents($_FILES['gambar_A']['tmp_name']));
 				}
 			}
 			if(!empty($_FILES['gambar_B']['name'])) {
@@ -123,8 +123,8 @@
 				$imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
 				$extension_arr = array("jpg", "jpeg", "png", "gif");
 				if(in_array($imageFileType, $extension_arr)) {
-					$gambar_B = $_FILES['gambar_B']['name'];
-					move_uploaded_file($_FILES['gambar_B']['tmp_name'], $target_dir.$gambar_B);
+					$tipeGambar_B = mime_content_type($_FILES['gambar_B']['tmp_name']);
+					$gambar_B = addslashes(file_get_contents($_FILES['gambar_B']['tmp_name']));
 				}
 			}
 			if(!empty($_FILES['gambar_C']['name'])) {
@@ -133,8 +133,8 @@
 				$imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
 				$extension_arr = array("jpg", "jpeg", "png", "gif");
 				if(in_array($imageFileType, $extension_arr)) {
-					$gambar_C = $_FILES['gambar_C']['name'];
-					move_uploaded_file($_FILES['gambar_C']['tmp_name'], $target_dir.$gambar_C);
+					$tipeGambar_C = mime_content_type($_FILES['gambar_C']['tmp_name']);
+					$gambar_C = addslashes(file_get_contents($_FILES['gambar_C']['tmp_name']));
 				}
 			}
 			if(!empty($_FILES['gambar_D']['name'])) {
@@ -143,19 +143,26 @@
 				$imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
 				$extension_arr = array("jpg", "jpeg", "png", "gif");
 				if(in_array($imageFileType, $extension_arr)) {
-					$gambar_D = $_FILES['gambar_D']['name'];
-					move_uploaded_file($_FILES['gambar_D']['tmp_name'], $target_dir.$gambar_D);
+					$tipeGambar_D = mime_content_type($_FILES['gambar_D']['tmp_name']);
+					$gambar_D = addslashes(file_get_contents($_FILES['gambar_D']['tmp_name']));
 				}
 			}
-			
+
 			mysqli_autocommit($mysqli, FALSE);
 			
-			mysqli_query($mysqli, "INSERT INTO soal (id_mapel, kelas, bab, kategori, jenis, soal, tipe_soal_gambar, soal_gambar, soal_video, soal_audio, jawab_A, gambar_A, jawab_B, gambar_B, jawab_C, gambar_C, jawab_D, gambar_D, acak) VALUES (".$mapel.", ".$kelas.", '".$bab."', ".$kategori.", ".$jenis.", '".$soal."', '".$tipeSoalGambar['mime']."', '".$soalGambar."', '".$soalVideo."', '".$soalAudio."', '".$jawab_A."', '".$gambar_A."', '".$jawab_B."', '".$gambar_B."', '".$jawab_C."', '".$gambar_C."', '".$jawab_D."', '".$gambar_D."', 1);");
+			mysqli_query($mysqli, "INSERT INTO soal (id_mapel, kelas, bab, kategori, jenis, soal, tipe_soal_gambar, soal_gambar, tipe_soal_video, soal_video, tipe_soal_audio, soal_audio, jawab_A, tipe_gambar_A, gambar_A, jawab_B, tipe_gambar_B, gambar_B, jawab_C, tipe_gambar_C, gambar_C, jawab_D, tipe_gambar_D, gambar_D, acak) VALUES (".$mapel.", ".$kelas.", '".$bab."', ".$kategori.", ".$jenis.", '".$soal."', '".$tipeSoalGambar."', '".$soalGambar."', '".$tipeSoalVideo."' ,'".$soalVideo."', '".$tipeSoalAudio."' ,'".$soalAudio."', '".$jawab_A."', '".$tipeGambar_A."' ,'".$gambar_A."', '".$jawab_B."', '".$tipeGambar_B."' ,'".$gambar_B."', '".$jawab_C."', '".$tipeGambar_C."' ,'".$gambar_C."', '".$jawab_D."', '".$tipeGambar_D."' ,'".$gambar_D."', 1);");
 			mysqli_query($mysqli, "INSERT INTO kunci (id_soal, kunci) VALUES (LAST_INSERT_ID(), ".$kunci.");");
 			mysqli_commit($mysqli);
 			
 		} else if(isset($_POST['edit'])) {
 			$id = $_POST['inputID'];
+
+			$sql = "SELECT tipe_soal_gambar, soal_gambar FROM soal WHERE id=".$id.";";
+			$result = $mysqli->query($sql);
+			$row = $result->fetch_assoc();
+			$tipeSoalGambarMime = $row['tipe_soal_gambar'];
+			$soalGambar = $row['soal_gambar'];
+
 			$mapel = $_POST['inputMapel'];
 			$kelas = $_POST['inputKelas'];
 			$kategori = $_POST['inputKategori'];
@@ -167,10 +174,23 @@
 			$jawab_C = $_POST['jawab_C'];
 			$jawab_D = $_POST['jawab_D'];
 			$kunci = $_POST['kunci'];
+			$tipeSoalGambar = "";
+
+			if(!empty($_FILES['soalGambar']['name'])) {
+				$target_dir = "image/";
+				$target_file = $target_dir . basename($_FILES['soalGambar']['name']);
+				$imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+				$extension_arr = array("jpg", "jpeg", "png", "gif");
+				if(in_array($imageFileType, $extension_arr)) {
+					$tipeSoalGambar = getImageSize($_FILES['soalGambar']['tmp_name']);
+					$tipeSoalGambarMime = $tipeSoalGambar['mime'];
+					$soalGambar = addslashes(file_get_contents($_FILES['soalGambar']['tmp_name']));
+				}
+			}
 
 			mysqli_autocommit($mysqli, FALSE);
 
-			mysqli_query($mysqli, "UPDATE soal SET id_mapel=".$mapel.", kelas=".$kelas.", kategori=".$kategori.", bab='".$bab."', soal='".$soal."', jawab_A='".$jawab_A."', jawab_B='".$jawab_B."', jawab_C='".$jawab_C."', jawab_D='".$jawab_D."' WHERE id=".$id.";");
+			mysqli_query($mysqli, "UPDATE soal SET id_mapel=".$mapel.", kelas=".$kelas.", kategori=".$kategori.", bab='".$bab."', soal='".$soal."',tipe_soal_gambar='".$tipeSoalGambarMime."', soal_gambar='".$soalGambar."', jawab_A='".$jawab_A."', jawab_B='".$jawab_B."', jawab_C='".$jawab_C."', jawab_D='".$jawab_D."' WHERE id=".$id.";");
 			mysqli_query($mysqli, "UPDATE kunci SET kunci=".$kunci." WHERE id_soal=".$id.";");
 			mysqli_commit($mysqli);
 		}

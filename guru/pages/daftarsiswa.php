@@ -9,7 +9,7 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>GURUKU | Student</title>
+	<title>GURUKU | Paket Soal</title>
 	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 	
 	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
@@ -47,7 +47,7 @@
 		.sidenav a, .dropdown-btn {
 			padding: 6px 8px 6px 16px;
 			text-decoration: none;
-			font-size: 20px;
+			font-size: 18px;
 			color: #818181;
 			display: block;
 			border: none;
@@ -72,6 +72,51 @@
 			float: right;
 			padding-right: 8px;
 		}
+		.custom-select {
+			position: relative;
+		}
+		.custom-select select {
+			display: none;
+		}
+		.select-selected {
+			background-color: DodgerBlue;
+		}
+		.select-selected:after {
+			position: absolute;
+			content: "";
+			top: 14px;
+			right: 10px;
+			width: 0;
+			height: 0;
+			border: 6px solid transparent;
+			border-color: #fff transparent transparent transparent;
+		}
+		.select-selected.select-arrow-active:after {
+			border-color: transparent transparent #fff transparent;
+			top: 7px;
+		}
+		.select-items div, .select-selected {
+			color: #ffffff;
+			padding: 8px 16px;
+			border: 1px solid transparent;
+			border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent;
+			cursor: pointer;
+			user-select: none;
+		}
+		.select-items {
+			position: absolute;
+			background-color: DodgerBlue;
+			top: 100%;
+			left: 0;
+			right: 0;
+			z-index: 99;
+		}
+		.select-hide {
+			display: none;
+		}
+		.select-items div:hover {
+			background-color: rgba(0, 0, 0, 0.1);
+		}
 	</style>
 	
 </head>
@@ -85,7 +130,7 @@
 			<ul class="nav navbar-nav navbar-right">
 				<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><?php echo htmlentities($_SESSION['username']); ?></a>
 					<ul class="dropdown-menu">
-						<li><a href="#">Profile</a></li>
+						<li><a href="profil.php">Profile</a></li>
 						<li><a href="../includes/logout.php">Sign Out</a></li>
 					</ul>
 				</li>
@@ -93,60 +138,53 @@
 		</div>
 	</nav>
 	<div class="sidenav">
-		<a href="siswa.php"><span class="fa fa-home"></span> Home</a>
-		<a href="#" class="active"><span class="fa fa-briefcase"></span> Hasil</a>
+		<button class="dropdown-btn" id="dataSiswa">
+			<span class="fa fa-users"></span> Data Siswa
+			<i class="fa fa-caret-down"></i>
+		</button>
+		<div class="dropdown-container">
+			<a href="#" class="active"><span class="fa fa-user"></span> Daftar Siswa</a>
+		</div>
+		<button class="dropdown-btn" id="bankSoal">
+			<span class="fa fa-archive"></span> Bank Soal
+			<i class="fa fa-caret-down"></i>
+		</button>
+		<div class="dropdown-container">
+			<a href="paket.php"><span class="fa fa-book"></span> Paket Soal</a>
+			<a href="view_soal.php"><span class="fa fa-plus-square"></span> Daftar Soal</a>
+		</div>
+		<a href="mapel.php"><span class="fa fa-list-alt"></span> Mata Pelajaran</a>
 	</div>
-	
-	<div class="container">
+
+	<div class="container-fluid">
 		<div class="panel panel-default">
 			<div class="panel-body">
-				<table id="example" class="table table-hover">
-					<thead>
-						<tr>
-							<th>No.</th>
-							<th>Nama Paket Soal</th>
-							<th>Mata Pelajaran</th>
-							<th>Jumlah Benar</th>
-							<th>Jumlah Salah</th>
-							<th>Nilai</th>
-							<th>Lihat</th>
-						</tr>
-					</thead>
-					<tbody>
-						<?php
-							$sql = "SELECT paket.nama, mapel.mapel, hasil.jmlBenar, hasil.jmlSalah, hasil.nilai FROM ((hasil 
-										INNER JOIN paket ON hasil.kode_paket = paket.kode)
-										INNER JOIN mapel ON paket.id_mapel = mapel.id_mapel);";
-							$result = $mysqli->query($sql);
-							if($result->num_rows > 0) {
-								$i = 1;
-								while($row = $result->fetch_assoc()) {
-									echo "
-										<tr>
-											<td>".$i."</td>
-											<td>".$row["nama"]."</td>
-											<td>".$row["mapel"]."</td>
-											<td>".$row["jmlBenar"]."</td>
-											<td>".$row["jmlSalah"]."</td>
-											<td>".$row["nilai"]."</td>
-											<td>NONE</td>
-										</tr>";
-									$i++;
-								}
-							}
-						?>
-					</tbody>
-				</table>
+
 			</div>
 		</div>
 	</div>
-	
+
 	<script>
-	
+		var dropdown = document.getElementsByClassName("dropdown-btn");
+		var i;
+		
+		for (i=0; i<dropdown.length; i++) {
+			dropdown[i].addEventListener("click", function() {
+				this.classList.toggle("active");
+				var dropdownContent = this.nextElementSibling;
+				if (dropdownContent.style.display === "block") {
+					dropdownContent.style.display = "none";
+				} else {
+					dropdownContent.style.display = "block";
+				}
+			});
+		}
+		
 		$(document).ready(function() {
 			$('#example').DataTable();
 		});
-		
+
+		document.getElementById("dataSiswa").click();
 	</script>
 	
 	<?php else : ?>
