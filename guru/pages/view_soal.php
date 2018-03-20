@@ -12,9 +12,8 @@
 	<title>GURUKU | View Soal</title>
 	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 	
-	<link href="../components/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-	<link href="../components/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic" rel="stylesheet">
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 	<link href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap.min.css" rel="stylesheet">
 	<link href="https://cdn.datatables.net/responsive/2.2.1/css/responsive.bootstrap.min.css" rel="stylesheet">
 	
@@ -22,8 +21,6 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
 	<script src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap.min.js"></script>
-	<script src="https://cdn.datatables.net/responsive/2.2.1/js/dataTables.responsive.min.js"></script>
-	<script src="https://cdn.datatables.net/responsive/2.2.1/js/responsive.bootstrap.min.js"></script>
 	
 	<style>
 		html, body {
@@ -139,7 +136,7 @@
 			<ul class="nav navbar-nav navbar-right">
 				<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><?php echo htmlentities($_SESSION['username']); ?></a>
 					<ul class="dropdown-menu">
-						<li><a href="#">Profile</a></li>
+						<li><a href="profil.php">Profile</a></li>
 						<li><a href="../includes/logout.php">Sign Out</a></li>
 					</ul>
 				</li>
@@ -147,18 +144,25 @@
 		</div>
 	</nav>
 	<div class="sidenav">
+		<button class="dropdown-btn" id="dataSiswa">
+			<span class="fa fa-users"></span> Data Siswa
+			<i class="fa fa-caret-down"></i>
+		</button>
+		<div class="dropdown-container">
+			<a href="daftarsiswa.php"><span class="fa fa-user"></span> Daftar Siswa</a>
+		</div>
 		<button class="dropdown-btn" id="bankSoal">
 			<span class="fa fa-archive"></span> Bank Soal
 			<i class="fa fa-caret-down"></i>
 		</button>
 		<div class="dropdown-container">
 			<a href="paket.php"><span class="fa fa-book"></span> Paket Soal</a>
-			<a href="#" class="active"><span class="fa fa-plus-square"></span> Tambah Soal</a>
+			<a href="#" class="active"><span class="fa fa-plus-square"></span> Daftar Soal</a>
 		</div>
 		<a href="mapel.php"><span class="fa fa-list-alt"></span> Mata Pelajaran</a>
 	</div>
 	
-	<div class="container">
+	<div class="container-fluid">
 		<div class="panel panel-default">
 			<div class="panel-body">
 				<a href="tambah_soal.php?type=add" class="btn btn-warning">
@@ -212,7 +216,7 @@
 								return $check;
 							}
 							
-							$sql = "SELECT soal.id, mapel.mapel, soal.soal, soal.bab, soal.jenis, soal.kategori, soal.kelas, soal.soal_gambar, soal.soal_video, soal.soal_audio, soal.jawab_A, soal.gambar_A, soal.jawab_B, soal.gambar_B, soal.jawab_C, soal.gambar_C, soal.jawab_D, soal.gambar_D, kunci.kunci FROM ((soal INNER JOIN mapel ON soal.id_mapel=mapel.id_mapel) INNER JOIN kunci ON soal.id=kunci.id_soal);";
+							$sql = "SELECT soal.id, mapel.mapel, soal.soal, soal.bab, soal.jenis, soal.kategori, soal.kelas, soal.soal_gambar, soal.soal_video, soal.tipe_soal_audio, soal.soal_audio, soal.jawab_A, soal.gambar_A, soal.jawab_B, soal.gambar_B, soal.jawab_C, soal.gambar_C, soal.jawab_D, soal.gambar_D, kunci.kunci FROM ((soal INNER JOIN mapel ON soal.id_mapel=mapel.id_mapel) INNER JOIN kunci ON soal.id=kunci.id_soal);";
 							$result = $mysqli->query($sql);
 							if($result->num_rows > 0) {
 								$i = 1;
@@ -310,7 +314,13 @@
 																</a>";
 																
 									}
-															echo "
+									if(!empty($row["soal_audio"])) {
+										echo "
+																<a href='audioView.php?id=".$row["id"]."' target='_blank' type='button' class='btn btn-primary'>
+																	<span class='fa fa-file-sound-o'></span> Lihat Audio
+																</a>";
+									}
+									echo "
 																<hr>
 																<div class='row'>
 																	<div class='col-sm-3'>
@@ -319,8 +329,7 @@
 																	<div class='col-sm-9'>
 																		<p>:</p>
 																	</div>
-																</div>";
-															echo "
+																</div>
 																<div class='row'>
 																	<div class='col-sm-1'>
 																	".cekJawab("1", $row["kunci"])."
@@ -432,14 +441,6 @@
 		});
 		
 		document.getElementById("bankSoal").click();
-		
-		/*document.getElementById("imageModal").onclick = function() {
-			document.getElementsByClassName("modal-img")[0].style.display = "block";
-		}
-		
-		document.getElementById("closeImage").onclick = function() {
-			document.getElementsByClassName("modal-img")[0].style.display = "none";
-		}*/
 		
 	</script>
 	<?php else : ?>

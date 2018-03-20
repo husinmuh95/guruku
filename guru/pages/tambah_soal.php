@@ -11,9 +11,8 @@
 	<title>GURUKU | Tambah Soal</title>
 	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 	
-	<link href="../components/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-	<link href="../components/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic" rel="stylesheet">
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 	<link href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap.min.css" rel="stylesheet">
 	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -31,42 +30,6 @@
 		.navbar {
 			background-color: #1a3547;
 			border: none;
-		}
-		.sidenav {
-			height: 100%;
-			width: 200px;
-			position: fixed;
-			z-index: 1;
-			top: 0;
-			left: 0;
-			background-color: #1a3547;
-			overflow-x: hidden;
-			padding-top: 60px;
-		}
-		.sidenav a, .dropdown-btn {
-			padding: 6px 8px 6px 16px;
-			text-decoration: none;
-			font-size: 20px;
-			color: #818181;
-			display: block;
-			border: none;
-			background: none;
-			width: 100%;
-			text-align: left;
-			cursor: pointer;
-			outline: none;
-		}
-		.sidenav a:hover, dropdown-btn:hover {
-			color: #f1f1f1;
-		}
-		.dropdown-container {
-			display: none;
-			background-color: #23516f;
-			padding-left: 8px;
-		}
-		.fa-caret-down {
-			float: right;
-			padding-right: 8px;
 		}
 		.custom-select {
 			position: relative;
@@ -140,7 +103,7 @@
 			font-size: 70px;
 			color: DodgerBlue;
 		}
-		#uploadFile {
+		.uploadFile {
 			border: none;
 			margin-left: 10px;
 			width: 150px;
@@ -211,6 +174,70 @@
 			color: white;
 			margin-bottom: 20px;
 		}
+		.img-responsive {
+			border-radius: 5px;
+			cursor: pointer;
+			transition: 0.3s;
+			margin-top: 0;
+			max-height: 130px;
+		}
+		.img-responsive:hover {
+			opacity: 0.7;
+		}
+		.modal {
+			display: none;
+			position: fixed;
+			z-index: 1;
+			padding-top: 100px;
+			left: 0;
+			top: 0;
+			width: 100%;
+			height: 100%;
+			overflow: auto;
+			background-color: rgb(0,0,0);
+			background-color: rgba(0,0,0,0.9);
+		}
+		.modal-content {
+			margin: auto;
+			display: block;
+			width: 80%;
+			max-width: 700px;
+			animation-name: zoom;
+			animation-duration: 0.6s;
+		}
+		@keyframes zoom {
+			from {
+				transform: scale(0);
+			}
+			to {
+				transform: scale(1);
+			}
+		}
+		.close {
+			position: absolute;
+			top: 60px;
+			right: 35px;
+			color: #f1f1f1;
+			font-size: 40px;
+			font-weight: bold;
+			transition: 0.3s;
+		}
+		.close:hover, .close:focus {
+			color: #bbb;
+			text-decoration: none;
+			cursor: pointer;
+		}
+		@media only screen and (max-width: 700px) {
+			.modal-content {
+				width: 100%;
+			}
+		}
+		.panel-img {
+			position: relative;
+			max-width: 200px;
+			height: 150px;
+			width: 150px;
+		}
 	</style>
 	
 </head>
@@ -225,7 +252,7 @@
 					<ul class="nav navbar-nav navbar-right">
 						<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><?php echo htmlentities($_SESSION['username']); ?></a>
 							<ul class="dropdown-menu">
-								<li><a href="#">Profile</a></li>
+								<li><a href="profil.php">Profile</a></li>
 								<li><a href="../includes/logout.php">Sign Out</a></li>
 							</ul>
 						</li>
@@ -414,25 +441,25 @@
 								<div class="fileUpload">
 									<span class="custom-span">+</span>
 									<p class="custom-para">Add Images</p>
-									<input id="uploadBtn" type="file" class="upload" name="soalGambar"/>
+									<input id="btnUploadGambarSoal" type="file" class="upload" name="soalGambar"/>
 								</div>
-								<input id="uploadFile" placeholder="0 files selected" disabled="disabled"/>
+								<input class="uploadFile" id="uploadGambarSoal" placeholder="0 files selected" disabled="disabled"/>
 							</div>
 							<div class="form-group col-sm-2">
 								<div class="fileUpload">
 									<span class="custom-span">+</span>
 									<p class="custom-para">Add Video</p>
-									<input id="uploadBtn" type="file" class="upload" name="soalVideo"/>
+									<input id="btnUploadVideoSoal" type="file" class="upload" name="soalVideo"/>
 								</div>
-								<input id="uploadFile" placeholder="0 files selected" disabled="disabled"/>
+								<input class="uploadFile" id="uploadVideoSoal" placeholder="0 files selected" disabled="disabled"/>
 							</div>
 							<div class="form-group col-sm-2">
 								<div class="fileUpload">
 									<span class="custom-span">+</span>
 									<p class="custom-para">Add Audio</p>
-									<input id="uploadBtn" type="file" class="upload" name="soalAudio"/>
+									<input id="btnUploadAudioSoal" type="file" class="upload" name="soalAudio"/>
 								</div>
-								<input id="uploadFile" placeholder="0 files selected" disabled="disabled"/>
+								<input class="uploadFile" id="uploadAudioSoal" placeholder="0 files selected" disabled="disabled"/>
 							</div>
 						</div>
 						<hr>
@@ -448,9 +475,9 @@
 								<div class="fileUpload">
 									<span class="custom-span">+</span>
 									<p class="custom-para">Add Image</p>
-									<input id="uploadBtn" type="file" class="upload" name="gambar_A"/>
+									<input id="btnUploadGambar_A" type="file" class="upload" name="gambar_A"/>
 								</div>
-								<input id="uploadFile" placeholder="0 files selected" disabled="disabled"/>
+								<input class="uploadFile" id="uploadGambar_A" placeholder="0 files selected" disabled="disabled"/>
 							</div>
 							<div class="form-group col-sm-6">
 								<textarea class="form-control" rows="5" name="jawab_A"></textarea>
@@ -468,9 +495,9 @@
 								<div class="fileUpload">
 									<span class="custom-span">+</span>
 									<p class="custom-para">Add Image</p>
-									<input id="uploadBtn" type="file" class="upload" name="gambar_B"/>
+									<input id="btnUploadGambar_B" type="file" class="upload" name="gambar_B"/>
 								</div>
-								<input id="uploadFile" placeholder="0 files selected" disabled="disabled"/>
+								<input class="uploadFile" id="uploadGambar_B" placeholder="0 files selected" disabled="disabled"/>
 							</div>
 							<div class="form-group col-sm-6">
 								<textarea class="form-control" rows="5" name="jawab_B"></textarea>
@@ -488,9 +515,9 @@
 								<div class="fileUpload">
 									<span class="custom-span">+</span>
 									<p class="custom-para">Add Image</p>
-									<input id="uploadBtn" type="file" class="upload" name="gambar_C"/>
+									<input id="btnUploadGambar_C" type="file" class="upload" name="gambar_C"/>
 								</div>
-								<input id="uploadFile" placeholder="0 files selected" disabled="disabled"/>
+								<input class="uploadFile" id="uploadGambar_C" placeholder="0 files selected" disabled="disabled"/>
 							</div>
 							<div class="form-group col-sm-6">
 								<textarea class="form-control" rows="5" name="jawab_C"></textarea>
@@ -508,9 +535,9 @@
 								<div class="fileUpload">
 									<span class="custom-span">+</span>
 									<p class="custom-para">Add Image</p>
-									<input id="uploadBtn" type="file" class="upload" name="gambar_D"/>
+									<input id="btnUploadGambar_D" type="file" class="upload" name="gambar_D"/>
 								</div>
-								<input id="uploadFile" placeholder="0 files selected" disabled="disabled"/>
+								<input class="uploadFile" id="uploadGambar_D" placeholder="0 files selected" disabled="disabled"/>
 							</div>
 							<div class="form-group col-sm-6">
 								<textarea class="form-control" rows="5" name="jawab_D"></textarea>
@@ -613,12 +640,26 @@
 								<textarea class="form-control" rows="7" name="inputSoal"><?php echo $soal; ?></textarea>
 							</div>
 							<div class="form-group col-sm-2">
-								<div class="fileUpload">
-									<span class="custom-span">+</span>
-									<p class="custom-para">Add Images</p>
+								<?php if(!empty($soalGambar)) : ?>
+									<div class="panel panel-default panel-img">
+										<div class="panel-body">
+											<img class="img-responsive" id="imageSoal" src="data:<?php echo $tipeSoalGambar; ?>; base64, <?php echo base64_encode($soalGambar); ?>" width="150px" onclick="openImage(event, 'modalImage<?php echo $id; ?>')">
+										</div>
+									</div>
 									<input id="uploadBtn" type="file" class="upload" name="soalGambar"/>
-								</div>
-								<input id="uploadFile" placeholder="0 files selected" disabled="disabled"/>
+									<input id="uploadFile" placeholder="0 files selected" disabled="disabled">
+									<div id="modalImage<?php echo $id; ?>" class="modal">
+										<span class="close" id="closeModal" onclick="closeImage(event, 'modalImage<?php echo $id; ?>')">&times;</span>
+										<img class="modal-content" id="imageInModal<?php echo $id; ?>" src="data:<?php echo $tipeSoalGambar; ?>; base64, <?php echo base64_encode($soalGambar); ?>" width="100%">
+									</div>
+								<?php else : ?>
+									<div class="fileUpload">
+										<span class="custom-span">+</span>
+										<p class="custom-para">Add Images</p>
+										<input id="uploadBtn" type="file" class="upload" name="soalGambar"/>
+									</div>
+									<input id="uploadFile" placeholder="0 files selected" disabled="disabled"/>
+								<?php endif; ?>
 							</div>
 							<div class="form-group col-sm-2">
 								<div class="fileUpload">
@@ -784,10 +825,42 @@
 			
 			document.addEventListener("click", closeAllSelect);
 		
-			document.getElementById("uploadBtn").onchange = function() {
-				document.getElementById("uploadFile").value = this.value;
+			document.getElementById("btnUploadGambarSoal").onchange = function() {
+				document.getElementById("uploadGambarSoal").value = this.value;
+			};
+			document.getElementById("btnUploadVideoSoal").onchange = function() {
+				document.getElementById("uploadVideoSoal").value = this.value;
+			};
+			document.getElementById("btnUploadAudioSoal").onchange = function() {
+				document.getElementById("uploadAudioSoal").value = this.value;
+			};
+			document.getElementById("btnUploadGambar_A").onchange = function() {
+				document.getElementById("uploadGambar_A").value = this.value;
+			};
+			document.getElementById("btnUploadGambar_B").onchange = function() {
+				document.getElementById("uploadGambar_B").value = this.value;
+			};
+			document.getElementById("btnUploadGambar_C").onchange = function() {
+				document.getElementById("uploadGambar_C").value = this.value;
+			};
+			document.getElementById("btnUploadGambar_D").onchange = function() {
+				document.getElementById("uploadGambar_D").value = this.value;
 			};
 			
+			function openImage(evt, id) {
+				var i, imageSoal, modalImage, imageInModal;
+				imageSoal = document.getElementsByClassName("img-responsive");
+				modalImage = document.getElementsByClassName("modal");
+				for(i=0; i<modalImage.length; i++) {
+					modalImage[i].style.display = "none";
+				}
+				document.getElementById(id).style.display = "block";
+			}
+
+			function closeImage(evt, id) {
+				document.getElementById(id).style.display = "none";
+			}
+
 		</script>
 	<?php else : ?>
 		<p>

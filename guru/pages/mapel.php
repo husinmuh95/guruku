@@ -12,9 +12,8 @@
 	<title>GURUKU | Paket Soal</title>
 	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 	
-	<link href="../components/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-	<link href="../components/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic" rel="stylesheet">
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 	<link href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap.min.css" rel="stylesheet">
 	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -131,7 +130,7 @@
 			<ul class="nav navbar-nav navbar-right">
 				<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><?php echo htmlentities($_SESSION['username']); ?></a>
 					<ul class="dropdown-menu">
-						<li><a href="#">Profile</a></li>
+						<li><a href="profil">Profile</a></li>
 						<li><a href="../includes/logout.php">Sign Out</a></li>
 					</ul>
 				</li>
@@ -139,18 +138,25 @@
 		</div>
 	</nav>
 	<div class="sidenav">
+		<button class="dropdown-btn" id="dataSiswa">
+			<span class="fa fa-users"></span> Data Siswa
+			<i class="fa fa-caret-down"></i>
+		</button>
+		<div class="dropdown-container">
+			<a href="daftarsiswa.php"><span class="fa fa-user"></span> Daftar Siswa</a>
+		</div>
 		<button class="dropdown-btn" id="bankSoal">
 			<span class="fa fa-archive"></span> Bank Soal
 			<i class="fa fa-caret-down"></i>
 		</button>
 		<div class="dropdown-container">
 			<a href="paket.php"><span class="fa fa-book"></span> Paket Soal</a>
-			<a href="view_soal.php"><span class="fa fa-plus-square"></span> Tambah Soal</a>
+			<a href="view_soal.php"><span class="fa fa-plus-square"></span> Daftar Soal</a>
 		</div>
-		<a href="mapel.php" class="active"><span class="fa fa-list-alt"></span> Mata Pelajaran</a>
+		<a href="#" class="active"><span class="fa fa-list-alt"></span> Mata Pelajaran</a>
 	</div>
 	
-	<div class="container">
+	<div class="container-fluid">
 		<div class="panel panel-default">
 			<div class="panel-body">
 				<table id="example" class="table table-hover">

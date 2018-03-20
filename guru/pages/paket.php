@@ -10,17 +10,14 @@
 <head>
 	<meta charset="utf-8">
 	<title>GURUKU | Paket Soal</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto'>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script type="text/JavaScript" src="js/sha512.js"></script>
-    <script type="text/JavaScript" src="js/forms.js"></script>
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+	
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+	<link href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap.min.css" rel="stylesheet">
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
 	<script src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap.min.js"></script>
 	
@@ -133,7 +130,7 @@
 			<ul class="nav navbar-nav navbar-right">
 				<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><?php echo htmlentities($_SESSION['username']); ?></a>
 					<ul class="dropdown-menu">
-						<li><a href="#">Profile</a></li>
+						<li><a href="profil.php">Profile</a></li>
 						<li><a href="../includes/logout.php">Sign Out</a></li>
 					</ul>
 				</li>
@@ -141,18 +138,25 @@
 		</div>
 	</nav>
 	<div class="sidenav">
+		<button class="dropdown-btn" id="dataSiswa">
+			<span class="fa fa-users"></span> Data Siswa
+			<i class="fa fa-caret-down"></i>
+		</button>
+		<div class="dropdown-container">
+			<a href="daftarsiswa.php"><span class="fa fa-user"></span> Daftar Siswa</a>
+		</div>
 		<button class="dropdown-btn" id="bankSoal">
 			<span class="fa fa-archive"></span> Bank Soal
 			<i class="fa fa-caret-down"></i>
 		</button>
 		<div class="dropdown-container">
 			<a href="#" class="active"><span class="fa fa-book"></span> Paket Soal</a>
-			<a href="view_soal.php"><span class="fa fa-plus-square"></span> Tambah Soal</a>
+			<a href="view_soal.php"><span class="fa fa-plus-square"></span> Daftar Soal</a>
 		</div>
 		<a href="mapel.php"><span class="fa fa-list-alt"></span> Mata Pelajaran</a>
 	</div>
 	
-	<div class="container">
+	<div class="container-fluid">
 		<div class="panel panel-default">
 			<div class="panel-body">
 				<a href="#" class="btn btn-primary" data-toggle="modal" data-target="#modalPaket">
@@ -276,6 +280,7 @@
 							<th>Kelas</th>
 							<th>Kode Ujian</th>
 							<th>Waktu</th>
+							<th>Status</th>
 							<th>Detail</th>
 							<th>Hapus</th>
 						</tr>
@@ -304,7 +309,7 @@
 								return $jenisStr;
 							}
 
-							$sql = "SELECT paket.id, paket.kode, mapel.mapel, paket.nama, paket.kelas, paket.waktu, paket.soal FROM paket INNER JOIN mapel ON paket.id_mapel=mapel.id_mapel;";
+							$sql = "SELECT paket.id, paket.kode, paket.aktif, mapel.mapel, paket.nama, paket.kelas, paket.waktu, paket.soal FROM paket INNER JOIN mapel ON paket.id_mapel=mapel.id_mapel;";
 							$result = $mysqli->query($sql);
 
 							if($result->num_rows > 0) {
@@ -317,6 +322,63 @@
 											<td>".$row["kelas"]."</td>
 											<td>".$row["kode"]."</td>
 											<td>".$row["waktu"]." Menit</td>
+											<td>";
+									if($row["aktif"] == "0") {
+										echo "
+												<a href='#modalAktif".$row["id"]."' class='btn btn-danger' data-toggle='modal'>
+													Tidak Aktif
+												</a>
+												<div class='modal fade' id='modalAktif".$row["id"]."' tabindex='-1' role='dialog' aria-labelledby='myModalLabel".$row["id"]."' aria-hidden='true'>
+													<div class='modal-dialog'>
+														<div class='modal-content'>
+															<form method='post' action='aktifpaket.php'>
+																<div class='modal-header'>
+																	<button type='button' class='close' data-dismiss='modal'>
+																		<span aria-hidden='true'>&times;</span>
+																		<span class='sr-only'>Close</span>
+																	</button>
+																	<h4 class='modal-title' id='myModalLabel".$row["id"]."'>Aktifkan Paket Soal</h4>
+																</div>
+																<div class='modal-body'>
+																	<p>Apakah Anda mau mengaktifkan paket soal ini?</p>
+																	<input type='hidden' name='inputID' value='".$row["id"]."'>
+																</div>
+																<div class='modal-footer'>
+																	<button type='submit' name='aktifkan' class='btn btn-success pull-right'>Aktifkan</button>
+																</div>
+															</form>
+														</div>
+													</div>
+												</div>";
+									} else if($row["aktif"] == "1") {
+										echo "
+												<a href='#modalAktif".$row["id"]."' class='btn btn-success' data-toggle='modal'>
+													Aktif
+												</a>
+												<div class='modal fade' id='modalAktif".$row["id"]."' tabindex='-1' role='dialog' aria-labelledby='myModalLabel".$row["id"]."' aria-hidden='true'>
+													<div class='modal-dialog'>
+														<div class='modal-content'>
+															<form method='post' action='aktifpaket.php'>
+																<div class='modal-header'>
+																	<button type='button' class='close' data-dismiss='modal'>
+																		<span aria-hidden='true'>&times;</span>
+																		<span class='sr-only'>Close</span>
+																	</button>
+																</div>
+																<div class='modal-body'>
+																	<p>Apakah Anda mau menonaktifkan paket soal ini?</p>
+																	<input type='hidden' name='inputID' value='".$row["id"]."'>
+																</div>
+																<div class='modal-footer'>
+																	<button type='submit' name='nonaktifkan' class='btn btn-danger pull-right'>Non-aktifkan</button>
+																</div>
+															</form>
+														</div>
+													</div>
+												</div>";
+									}
+									echo "
+											</td>
 											<td>
 												<a href='#modalPaket".$row["id"]."' class='btn btn-default' id='paketId' data-toggle='modal'>
 													<span class='fa fa-search'></span>

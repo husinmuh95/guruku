@@ -17,9 +17,8 @@
 	<title>GURUKU | Secure Login</title>
 	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 	
-	<link href="components/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-	<link href="components/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic" rel="stylesheet">
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -44,11 +43,11 @@
 	</style>
 </head>
 <body>
-	<?php 
-		if(isset($_GET['error'])) {
-			echo '<p class="error">Login gagal!</p>';
-		}
-	?>
+	<?php if(isset($_GET['error'])) : ?>
+		<script>
+			alert("Login gagal!");
+		</script>
+	<?php endif; ?>
 	
 	<div class="container">
 		<h1><strong>GURUKU</strong></h1>

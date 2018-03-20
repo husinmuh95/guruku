@@ -12,9 +12,8 @@
 	<title>GURUKU | Student</title>
 	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 	
-	<link href="../components/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-	<link href="../components/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic" rel="stylesheet">
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 	<link href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap.min.css" rel="stylesheet">
 	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -188,7 +187,7 @@
 		.img-responsive:hover {
 			opacity: 0.7;
 		}
-		.modal {
+		.modal-img {
 			display: none;
 			position: fixed;
 			z-index: 1;
@@ -201,7 +200,7 @@
 			background-color: rgb(0,0,0);
 			background-color: rgba(0,0,0,0.9);
 		}
-		.modal-content {
+		.content-img {
 			margin: auto;
 			display: block;
 			width: 80%;
@@ -329,9 +328,9 @@
 							</div>
 							<div class="col-sm-3">
 								<img class="img-responsive" id="imageSoal" src="data:<?php echo $soalView[$i][1]; ?>; base64, <?php echo base64_encode($soalView[$i][2]); ?>" width="250" onclick="openImage(event, 'modalImage<?php echo $idSoal[$i]; ?>')">
-								<div id="modalImage<?php echo $idSoal[$i]; ?>" class="modal">
+								<div id="modalImage<?php echo $idSoal[$i]; ?>" class="modal modal-img">
 									<span class="close" id="closeModal" onclick="closeImage(event, 'modalImage<?php echo $idSoal[$i]; ?>')">&times;</span>
-									<img class="modal-content" id="imageInModal<?php echo $idSoal[$i]; ?>" src="data:<?php echo $soalView[$i][1]; ?>; base64, <?php echo base64_encode($soalView[$i][2]); ?>" width="100%">
+									<img class="modal-content content-img" id="imageInModal<?php echo $idSoal[$i]; ?>" src="data:<?php echo $soalView[$i][1]; ?>; base64, <?php echo base64_encode($soalView[$i][2]); ?>" width="100%">
 								</div>
 							</div>
 						</div>
@@ -419,12 +418,6 @@
 			}
 			document.getElementById(id).style.display = "block";
 		}
-
-		$(document).ready(function() {
-			$('.modal').on('show.bs.modal', function(e) {
-
-			})
-		})
 
 		function closeImage(evt, id) {
 			document.getElementById(id).style.display = "none";
