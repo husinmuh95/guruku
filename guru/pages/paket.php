@@ -188,7 +188,6 @@
 											<div class="col-sm-9">
 												<div class="custom-select" style="width:200px;">
 													<select name="inputMapel">
-														<option value="0">Mata Pelajaran</option>
 														<?php 
 															$sql = "SELECT id_mapel, mapel FROM mapel;";
 															$result = $mysqli->query($sql);
@@ -209,7 +208,6 @@
 											<div class="col-sm-9">
 												<div class="custom-select" style="width:200px;">
 													<select name="inputKelas">
-														<option value="0">Kelas</option>
 														<option value="7">7</option>
 														<option value="8">8</option>
 														<option value="9">9</option>
@@ -224,7 +222,6 @@
 											<div class="col-sm-9">
 												<div class="custom-select" style="width:200px;">
 													<select name="inputWaktu">
-														<option value="0">Waktu</option>
 														<option value="30">30 Menit</option>
 														<option value="60">60 Menit</option>
 														<option value="90">90 Menit</option>
@@ -257,7 +254,6 @@
 														}*/
 														return $randomString;
 													}
-													
 												?>
 												<input type="text" class="form-control" name="inputKode" value="<?php echo generateRandomString(); ?>"/>
 											</div>

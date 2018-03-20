@@ -1,6 +1,6 @@
 <?php
-	include_once 'includes/register.inc.php';
-	include_once 'includes/functions.php';
+include_once 'includes/register.inc.php';
+include_once 'includes/functions.php';
 ?>
 <!DOCTYPE html>
 <html>
@@ -33,78 +33,90 @@
 			cursor: pointer;
 		}
 	</style>
-	
 </head>
 <body>
-	<div class="container">
-		<h1><strong>GURUKU</strong></h1>
-		<h3>Registration For Teacher</h3>
-		<hr>
-		<?php 
-			if(!empty($error_msg)) {
-				echo $error_msg;
-			}
-		?>
-		<div class="row">
-			<div class="col-sm-6">
-				<form class="form-horizontal" action="<?php echo esc_url($_SERVER['PHP_SELF']); ?>" method="post" name="registration_form">
-					<div class="form-group">
-						<div class="row">
-							<label class="control-label col-sm-3" for="username">Username</label>
-							<div class="col-sm-9">
-								<input class="form-control" type="text" name="username" id="username"/>
-							</div>
-						</div>
-					</div>
-					<div class="form-group">
-						<div class="row">
-							<label class="control-label col-sm-3" for="email">Email</label>
-							<div class="col-sm-9">
-								<input class="form-control" type="text" name="email" id="email"/>
-							</div>
-						</div>
-					</div>
-					<div class="form-group">
-						<div class="row">
-							<label class="control-label col-sm-3" for="password">Password</label>
-							<div class="col-sm-9">
-								<input class="form-control" type="password" name="password" id="password"/>
-							</div>
-						</div>
-					</div>
-					<div class="form-group">
-						<div class="row">
-							<label class="control-label col-sm-3" for="confirmpwd">Confirm Password</label>
-							<div class="col-sm-9">
-								<input class="form-control" type="password" name="confirmpwd" id="confirmpwd"/>
-							</div>
-						</div>
-					</div>
-					<input class="btn btn-primary" type="button" value="Register" onclick="return regformhash(this.form,
-						this.form.username,
-						this.form.email,
-						this.form.password,
-						this.form.confirmpwd);"/>
-				</form>
-				<hr>
-				<p align="center">Kembali ke <a href="index.php">halaman log in</a>.</p>
-			</div>
-			<div class="col-sm-6">
-				<ul>
-					<li>Username hanya bisa mencakup digit, huruf-huruf besar dan kecil, dan garis bawah</li>
-					<li>Email harus memiliki format yang valid</li>
-					<li>Password harus setidaknya sepanjang 6 karakter</li>
-					<li>Password harus mengandung
-						<ul>
-							<li>Setidaknya satu huruf besar (A..Z)</li>
-							<li>Setidaknya satu huruf kecil (a..z)</li>
-							<li>Setidaknya satu angka (0..9)</li>
-						</ul>
-					</li>
-					<li>Password Anda dan konfirmasinya harus cocok</li>
-				</ul>
-			</div>
-		</div>
-	</div>
+<!--container background-->
+<div class="bgimg w3-display-container w3-row">
+    <!--container login form-->
+    <div class="w3-display-middle w3-half">
+        <div class="login w3-card-4 w3-animate-zoom w3-light-grey w3-opacity-min w3-round-xlarge">
+            <!--header guruku-->
+            <header class="w3-amber w3-round-xlarge w3-center">
+                <h1 class="logo w3-strong w3-xxxlarge w3-padding"><b>GURUKU </b></h1>
+            </header>
+            <div class="w3-container w3-center">
+                <h3> Sistem Login for Teacher </h3>
+            </div>
+            <?php
+            if(!empty($error_msg)) {
+                echo $error_msg;
+            }
+            ?>
+            <!--form login-->
+            <div class="w3-row">
+                <div class="w3-half w3-center">
+                    <form action="<?php echo esc_url($_SERVER['PHP_SELF']); ?>" method="post" name="registration_form" class="w3-container">
+                        <div class="w3-row w3-section">
+                            <div class="w3-col s2">
+                                <i class="w3-xxlarge fa fa-user"></i>
+                            </div>
+                            <div class="w3-rest">
+                                <input class="w3-input w3-border" id="username" name="username" type="text" placeholder="Username" required>
+                            </div>
+                        </div>
+                        <div class="w3-row w3-section">
+                            <div class="w3-col s2">
+                                <i class="w3-xxlarge fa fa-envelope"></i>
+                            </div>
+                            <div class="w3-rest">
+                                <input class="w3-input w3-border" id="email" name="email" type="email" placeholder="Email" required>
+                            </div>
+                        </div>
+                        <div class="w3-row w3-section">
+                            <div class="w3-col s2">
+                                <i class="w3-xxxlarge fa fa-lock"></i>
+                            </div>
+                            <div class="w3-rest">
+                                <input class="w3-input w3-border" id="password" name="password" type="password" placeholder="Password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}" required>
+                            </div>
+                        </div>
+                        <div class="w3-row w3-section">
+                            <div class="w3-col s2">
+                                <i class="w3-xxxlarge fa fa-unlock-alt"></i>
+                            </div>
+                            <div class="w3-rest">
+                                <input class="w3-input w3-border" id="confirmpwd" name="confirmpwd" type="password" placeholder="Confirm Password" required>
+                            </div>
+                        </div>
+                        <button class="w3-button w3-block w3-section w3-amber w3-ripple w3-padding" onclick="regformhash(this.form,
+                            this.form.username,
+                            this.form.email,
+                            this.form.password,
+                            this.form.confirmpwd)">Register</button>
+                    </form>
+                </div>
+                <div class="w3-rest w3-padding-large w3-margin-top">
+                    <ul>
+                        <li>Username hanya bisa mencakup <b>digit</b>, <b>huruf-huruf besar<br> dan kecil</b>, dan <b>garis bawah</b></li>
+                        <li>Email harus memiliki format yang <b>valid</b></li>
+                        <li>Password harus setidaknya sepanjang <b>6 karakter</b></li>
+                        <li>Password harus mengandung
+                            <ul>
+                                <li>Setidaknya <b>satu huruf besar (A..Z)</b></li>
+                                <li>Setidaknya <b>satu huruf kecil (a..z)</b></li>
+                                <li>Setidaknya <b>satu angka (0..9)</b></li>
+                            </ul>
+                        </li>
+                        <li>Password Anda dan konfirmasinya harus cocok</li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="w3-border-grey" style="margin:auto;width:80%">
+            <div class="w3-container w3-center w3-padding">
+                <p>Kembali ke <a href="index.php">halaman login</a> </p>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>

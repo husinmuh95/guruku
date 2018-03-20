@@ -235,7 +235,7 @@
 							return $check;
 						}
 						mysqli_free_result($result);
-						$sql = "SELECT soal.id, soal.kelas, mapel.mapel, soal.soal, soal.bab, soal.jenis, soal.kategori FROM soal INNER JOIN mapel ON soal.id_mapel=mapel.id_mapel WHERE soal.id_mapel=".$mapel.";";
+						$sql = "SELECT soal.id, soal.kelas, mapel.mapel, soal.soal, soal.bab, soal.jenis, soal.kategori, soal.soal_gambar, soal.jawab_A, soal.jawab_B, soal.jawab_C, soal.jawab_D, kunci.kunci FROM ((soal INNER JOIN mapel ON soal.id_mapel=mapel.id_mapel) INNER JOIN kunci ON soal.id=kunci.id_soal) WHERE soal.id_mapel=".$mapel.";";
 						$result = $mysqli->query($sql);
 						if($result->num_rows > 0) {
 							while($row = $result->fetch_assoc()) {
@@ -419,13 +419,18 @@
 			$mapel = $row['id_mapel'];
 			$waktu = $row['waktu'];
 			$soal = explode(" ", $row['soal']);
-
 		?>
 		<div class="container-fluid">
 			<a href="paket.php" class="btn btn-danger pull-right">
 				<span class="fa fa-times"></span> Cancel
 			</a>
 			<h3>Form Edit Paket Soal</h3>
+		<form method="post" action="buatpaket.php">
+			<input name="inputNama" type="hidden" value="<?php echo $nama; ?>">
+			<input name="inputMapel" type="hidden" value="<?php echo $mapel; ?>">
+			<input name="inputKelas" type="hidden" value="<?php echo $kelas; ?>">
+			<input name="inputWaktu" type="hidden" value="<?php echo $waktu; ?> Menit">
+			<input name="inputKode" type="hidden" value="<?php echo $kode; ?>">
 			<hr>
 			<form method="post" action="buatpaket.php">
 				<div class='row'>
